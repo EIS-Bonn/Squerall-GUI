@@ -1,0 +1,56 @@
+@(message: String, style: String = "scala")
+
+@defining(play.core.PlayVersion.current) { version =>
+
+<div class="alert alert-info" role="alert">
+Select a data source to connect to from the above list:
+</div>
+
+<ul class="list-group">
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        CSV file
+        <span class="badge badge-primary badge-pill btn btn-primary addSrc" data-type="csv">add</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        Parquet
+        <span class="badge badge-primary badge-pill btn btn-primary addSrc" data-toggle="modal" data-type="parquet">add</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        MongoDB
+        <span class="badge badge-primary badge-pill btn btn-primary addSrc" data-toggle="modal" data-type="mongodb">add</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        Cassandra
+        <span class="badge badge-primary badge-pill btn btn-primary addSrc" data-toggle="modal" data-type="cassandra">add</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        JDBC
+        <span class="badge badge-primary badge-pill btn btn-primary addSrc" data-toggle="modal" data-type="jdbc">add</span>
+    </li>
+</ul>
+
+
+<!-- Modal -->
+  <div class="modal fade" id="sourceModal" tabindex="-1" role="dialog" aria-labelledby="sourceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sourceModalLabel">Add a new source</h5>
+				<input type='hidden' id='slctdSrc' />
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+				<div class="form-group">
+                	<div id="options"></div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveSrc">Add source</button>
+            </div>
+        </div>
+    </div>
+</div>
+}

@@ -1,0 +1,20 @@
+@(message: String, data: Map[String,String], style: String = "scala")
+
+@defining(play.core.PlayVersion.current) { version =>
+
+<div class="alert alert-info" role="alert">
+Select a data source to annotate from the following list:
+</div>
+
+<ul class="list-group">
+@for((e,t) <- data){ 
+	<li class="list-group-item d-flex justify-content-between align-items-center">
+        @e 
+		<br>
+		<small>@t</small>
+		<a href="@routes.SparkallController.annotate(e)" class="badge badge-primary" data-entity="@e">Annotate</a>
+    </li>
+} 
+</ul>
+
+}

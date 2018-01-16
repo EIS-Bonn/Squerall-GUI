@@ -1,0 +1,364 @@
+@prefix bbc: <http://www.bbc.co.uk/ontologies/bbc/>
+@prefix exp: <https://example.com/>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+@prefix dcterms: <http://purl.org/dc/terms/>
+@prefix mo: <http://purl.org/ontology/mo/>
+@prefix exp: <https://example.com/>
+@prefix exp: <https://example.com/>
+@prefix exp: <https://example.com/>
+@prefix exp: <https://example.com/>
+@prefix exp: <https://example.com/>
+@prefix exp: <https://example.com/>
+@prefix exp: <https://example.com/>
+@prefix exp: <https://example.com/>
+@prefix exp: <https://example.com/>
+@prefix exp: <https://example.com/>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+@prefix exp: <https://example.com/>
+@prefix exp: <https://example.com/>
+@prefix schema: <http://schema.org/>
+@prefix isoadr: <http://reference.data.gov.au/def/ont/iso19160-1-address#>
+@prefix dcterms: <http://purl.org/dc/terms/>
+@prefix mo: <http://purl.org/ontology/mo/>
+@prefix event: <http://purl.org/NET/c4dm/event.owl#>
+@prefix gr: <http://purl.org/goodrelations/v1#>
+@prefix exp: <https://example.com/ns/>
+@prefix exp: <https://example.com/ns/>
+@prefix npg: <http://ns.nature.com/terms/>
+@prefix cbo: <http://comicmeta.org/cbo/>
+@prefix doap: <http://usefulinc.com/ns/doap#>
+@prefix foaf: <http://xmlns.com/foaf/0.1/>
+@prefix edm: <http://www.europeana.eu/schemas/edm/>
+@prefix dcterms: <http://purl.org/dc/terms/>
+@prefix foaf: <http://xmlns.com/foaf/0.1/>
+@prefix exp: <https://example.com/ns/>
+@prefix wlo: <http://purl.org/ontology/wo/>
+@prefix schema: <http://schema.org/>
+@prefix dcterms: <http://purl.org/dc/terms/>
+@prefix sp: <http://spinrdf.org/sp#>
+@prefix mo: <http://purl.org/ontology/mo/>
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+@prefix exp: <https://example.com/ns/>
+@prefix dcterms: <http://purl.org/dc/terms/>
+@prefix event: <http://purl.org/NET/c4dm/event.owl#>
+@prefix dcterms: <http://purl.org/dc/terms/>
+@prefix exp: <https://example.com/ns/>
+@prefix exp: <https://example.com/ns/>
+@prefix exp: <https://example.com/ns/>
+@prefix exp: <https://example.com/ns/>
+@prefix exp: <https://example.com/ns/>
+@prefix dbpedia-owl: <http://dbpedia.org/ontology/>
+@prefix edm: <http://www.europeana.eu/schemas/edm/>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+@prefix dcterms: <http://purl.org/dc/terms/>
+@prefix foaf: <http://xmlns.com/foaf/0.1/>
+@prefix exp: <https://example.com/ns/>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+@prefix rr: <http://www.w3.org/ns/r2rml#>
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>
+@prefix nosql: <http://purle.org/db/mysql#>
+
+<#ProducerMapping>
+	rml:logicalSource [
+		rml:source "//Producer";
+		nosql:Store nosql:jdbc
+	];
+	rr:subjectMap [
+		rr:template "http://example.com/{nr}";
+		rr:class dbpedia-owl:Producer
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate edm:country;
+		rr:objectMap [rml:reference "country"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [rml:reference "label"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate dcterms:publisher;
+		rr:objectMap [rml:reference "publisher"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate foaf:homepage;
+		rr:objectMap [rml:reference "homepage"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:publishDate;
+		rr:objectMap [rml:reference "publishDate"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:comment;
+		rr:objectMap [rml:reference "comment"]
+	].
+
+<#ReviewMapping>
+	rml:logicalSource [
+		rml:source "/media/mmami/EIS_Ext/Sparkall/data/reviews.parquet";
+		nosql:Store nosql:parquet
+	];
+	rr:subjectMap [
+		rr:template "http://example.com/{nr}";
+		rr:class schema:Review
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate dcterms:publisher;
+		rr:objectMap [rml:reference "publisher"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate sp:text;
+		rr:objectMap [rml:reference "text"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate mo:producer;
+		rr:objectMap [rml:reference "producer"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate dbpedia-owl:person;
+		rr:objectMap [rml:reference "person"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:rating3;
+		rr:objectMap [rml:reference "rating3"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate dcterms:language;
+		rr:objectMap [rml:reference "language"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate event:product;
+		rr:objectMap [rml:reference "product"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate dcterms:title;
+		rr:objectMap [rml:reference "title"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:rating2;
+		rr:objectMap [rml:reference "rating2"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:reviewDate;
+		rr:objectMap [rml:reference "reviewDate"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:publishDate;
+		rr:objectMap [rml:reference "publishDate"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:rating1;
+		rr:objectMap [rml:reference "rating1"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:rating4;
+		rr:objectMap [rml:reference "rating4"]
+	].
+
+<#PersonMapping>
+	rml:logicalSource [
+		rml:source "/media/mmami/EIS_Ext/Sparkall/data/persons.csv/persons.csv";
+		nosql:Store nosql:csv
+	];
+	rr:subjectMap [
+		rr:template "http://example.com/{nr}";
+		rr:class foaf:Person
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate edm:country;
+		rr:objectMap [rml:reference "country"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate dcterms:publisher;
+		rr:objectMap [rml:reference "publisher"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate foaf:mbox_sha1sum;
+		rr:objectMap [rml:reference "mbox_sha1sum"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:publishDate;
+		rr:objectMap [rml:reference "publishDate"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate wlo:name;
+		rr:objectMap [rml:reference "name"]
+	].
+
+<#OfferMapping>
+	rml:logicalSource [
+		rml:source "//Offer";
+		nosql:Store nosql:mongodb
+	];
+	rr:subjectMap [
+		rr:template "http://example.com/{nr}";
+		rr:class schema:Offer
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate isoadr:Lifespan.validTo;
+		rr:objectMap [rml:reference "validTo"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate dcterms:publisher;
+		rr:objectMap [rml:reference "publisher"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate mo:producer;
+		rr:objectMap [rml:reference "producer"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate event:product;
+		rr:objectMap [rml:reference "product"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate gr:validFrom;
+		rr:objectMap [rml:reference "validFrom"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:deliveryDays;
+		rr:objectMap [rml:reference "deliveryDays"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:publishDate;
+		rr:objectMap [rml:reference "publishDate"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate npg:webpage;
+		rr:objectMap [rml:reference "offerWebpage"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate cbo:price;
+		rr:objectMap [rml:reference "price"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate doap:vendor;
+		rr:objectMap [rml:reference "vendor"]
+	].
+
+<#ProductMapping>
+	rml:logicalSource [
+		rml:source "//Product";
+		nosql:Store nosql:cassandra
+	];
+	rr:subjectMap [
+		rr:template "http://example.com/{nr}";
+		rr:class bbc:Product
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyTex3;
+		rr:objectMap [rml:reference "propertyTex3"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [rml:reference "label"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate dcterms:publisher;
+		rr:objectMap [rml:reference "publisher"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate mo:producer;
+		rr:objectMap [rml:reference "producer"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyNum4;
+		rr:objectMap [rml:reference "propertyNum4"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyNum3;
+		rr:objectMap [rml:reference "propertyNum3"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyTex6;
+		rr:objectMap [rml:reference "propertyTex6"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyTex1;
+		rr:objectMap [rml:reference "propertyTex1"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyNum1;
+		rr:objectMap [rml:reference "propertyNum1"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyTex4;
+		rr:objectMap [rml:reference "propertyTex4"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyNum5;
+		rr:objectMap [rml:reference "propertyNum5"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyNum2;
+		rr:objectMap [rml:reference "propertyNum2"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:publishDate;
+		rr:objectMap [rml:reference "publishDate"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyTex5;
+		rr:objectMap [rml:reference "propertyTex5"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:comment;
+		rr:objectMap [rml:reference "comment"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyNum6;
+		rr:objectMap [rml:reference "propertyNum6"]
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate exp:propertyTex2;
+		rr:objectMap [rml:reference "propertyTex2"]
+	].

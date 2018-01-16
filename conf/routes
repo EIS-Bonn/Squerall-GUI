@@ -1,0 +1,41 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.HomeController.index
+# An example controller showing how to use dependency injection
+GET     /count                      controllers.CountController.count
+# An example controller showing how to write asynchronous code
+GET     /message                    controllers.AsyncController.message
+
+GET     /sparkall                   controllers.SparkallController.index
+
+GET     /addSource                  controllers.SparkallController.addSource
+
+GET     /addMappings                controllers.SparkallController.addMappings
+
+GET 	/addMappings/:entity		controllers.SparkallController.annotate(entity: String)
+
+
+GET     /query                  	controllers.SparkallController.query
+
+GET     /getPredicates              controllers.AjaxController.getPredicates(p, has : Option[String])
+
++ nocsrf
+POST    /getEmptyOptions            controllers.AjaxController.getEmptyOptions
+
++ nocsrf
+POST    /setOptions                 controllers.AjaxController.setOptions
+
++ nocsrf
+POST    /newMappings                controllers.AjaxController.newMappings
+
+
+
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+

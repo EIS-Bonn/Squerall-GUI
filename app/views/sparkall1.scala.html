@@ -1,0 +1,13 @@
+@(message: String, source: String, options: Map[String,String], dtype: String, schema: String, entity: String)
+
+@if(message=="Annotate source") {
+	<link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/easy-autocomplete.min.css")" />
+	<link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/easy-autocomplete.themes.min.css")" />
+	<link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/tt.css")" />
+    @html("Sparkall - Add Source") {
+        @annotate(message, source, options, dtype, schema, entity, style = "scala")
+    }
+	<script src="@routes.Assets.versioned("javascripts/typeahead.bundle.min.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/annotate.js")"></script>
+	
+}
