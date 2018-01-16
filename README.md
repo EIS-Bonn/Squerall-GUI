@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [<img src="https://img.shields.io/travis/playframework/play-scala-starter-example.svg"/>](https://travis-ci.org/playframework/play-scala-starter-example)
 
 # play-scala-starter-example
@@ -55,3 +56,7 @@ There are several demonstration files available in this template.
 - ExampleFilter.scala
 
   A simple filter that adds a header to every response.
+=======
+# spakall-gui
+the GUIS of Sparkall project
+>>>>>>> e27e91c4356b9792c1280fa6658cd4707f354ca2
