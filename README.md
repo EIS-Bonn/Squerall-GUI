@@ -11,11 +11,11 @@ Sparkall-GUI consits of three interfaces:
 - **2. Source mapping:** map data entities and attributes to Ontology classes and predicates.
 - **3. Query:** query the data using Ontology terms frop the mappings built by 2.
 
+Each of the previous interfaces outputs a file that is used by Sparkall:
 
-
-- Mappings are saved in: `conf/mappings.ttl`
-- Data source access configurations are saved in: `conf/config`
-- Query is saved in `conf/query.sparql`
+- 1. Data source access configurations are saved in: `conf/config`
+- 2. Mappings are saved in: `conf/mappings.ttl`
+- 3. Query is saved in `conf/query.sparql`
 
 You can change these configurations in the `cong/application.conf`
 
