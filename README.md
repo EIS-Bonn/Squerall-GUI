@@ -17,7 +17,7 @@ Each of the previous interfaces outputs a file that is used by Sparkall:
 2. Mappings are saved in: `conf/mappings.ttl`
 3. Query is saved in `conf/query.sparql`
 
-You can change the path to these files in the `cong/application.conf`.
+You can change the path to these files in `cong/application.conf`.
 
 For more information, refer to the paper here: ["Teach me to fish" Querying Semantic Data Lakes](https://www.researchgate.net/publication/322526357_%27Teach_me_to_fish%27_Querying_Semantic_Data_Lakes)
 
