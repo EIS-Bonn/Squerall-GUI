@@ -13,9 +13,9 @@ Sparkall-GUI consits of three interfaces:
 
 Each of the previous interfaces outputs a file that is used by Sparkall:
 
-- 1. Data source access configurations are saved in: `conf/config`
-- 2. Mappings are saved in: `conf/mappings.ttl`
-- 3. Query is saved in `conf/query.sparql`
+1. Data source access configurations are saved in: `conf/config`
+2. Mappings are saved in: `conf/mappings.ttl`
+3. Query is saved in `conf/query.sparql`
 
 You can change these configurations in the `cong/application.conf`
 
