@@ -3,9 +3,8 @@ Sparkall-GUI is the user interface of [Sparkall](https://github.com/mnmami/spark
 
 ## Execution
 To build and run the Sparkall-GUI, simply run:
-`sbt compile`
-Then:
-`sbt run`
+`sbt compile` then
+`sbt run`.
 
 Sparkall-GUI consits of three interfaces:
 - **1. Source injestion:** add a source by setting values to a set of prelisted options, mostly used by Spark.
