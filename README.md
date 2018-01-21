@@ -1,5 +1,5 @@
 # Sparkall-GUI
-Sparkall-GUI is the user interface of (Sparkall)[https://github.com/mnmami/sparkall], which is a solution for querying Data Lakes in a unified manner. Sparkall-GUI produces three input files used by Sparkall. Sparkall-GUI is a Web Scala Play application run using SBT.
+Sparkall-GUI is the user interface of [Sparkall](https://github.com/mnmami/sparkall), which is a solution for querying Data Lakes in a unified manner. Sparkall-GUI produces three input files used by Sparkall. Sparkall-GUI is a Web Scala Play application run using SBT.
 
 ## Execution
 To build and run the Sparkall-GUI, simply run:
