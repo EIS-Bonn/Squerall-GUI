@@ -1,5 +1,4 @@
 # Sparkall GUI
---
 Sparkall is a query layer on top of Data Lakes. Sparkall-GUI is a Web interface that buils the three input files used by Sparkall. Sparkall-GUI is a Scala Play application run using SBT.
 
 ## Execution
