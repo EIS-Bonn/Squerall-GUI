@@ -21,4 +21,6 @@ You can change the path to these files in `cong/application.conf`.
 
 For more information, refer to the paper here: ["Teach me to fish" Querying Semantic Data Lakes](https://www.researchgate.net/publication/322526357_%27Teach_me_to_fish%27_Querying_Semantic_Data_Lakes)
 
+Screencasts of Sparkall GUIs: https://drive.google.com/drive/folders/10mkwMrbuxv71gtwE2etDzqANt8S9YXhr
+
 For more enquireis, contact me on: mami@cs.uni-bonn.de
