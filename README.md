@@ -28,8 +28,8 @@ For more information, refer to the paper here: ["Teach me to fish" Querying Sema
 
 Screencasts of Sparkall GUIs: https://drive.google.com/drive/folders/10mkwMrbuxv71gtwE2etDzqANt8S9YXhr
 
+## Contact
 For more enquireis, contact me on: mami@cs.uni-bonn.de, or ask directly on [Gitter chat](https://gitter.im/sparkall).
-
 
 License
 -------
