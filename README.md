@@ -1,5 +1,7 @@
+[![Gitter](https://img.shields.io/gitter/room/DAVFoundation/DAV-Contributors.svg?style=flat-square)](https://gitter.im/sparkall)
+
 # Sparkall-GUI
-Sparkall-GUI is the user interface of [Sparkall](https://github.com/mnmami/sparkall), which is a solution for querying Data Lakes in a unified manner. Sparkall-GUI produces three input files used by Sparkall. Sparkall-GUI is a Web Scala Play application run using SBT.
+Sparkall-GUI is the user interface of [Sparkall](https://github.com/mnmami/sparkall), which is a solution for querying Data Lakes in a unified manner. Sparkall-GUI produces three input files used by Sparkall. Sparkall-GUI is a Scala Play Web application run using SBT.
 
 ## Execution
 To build and run the Sparkall-GUI, simply run:
@@ -8,6 +10,7 @@ To build and run the Sparkall-GUI, simply run:
 
 Then open your browser and navigate to `localhost:9000/sparkall`.
 
+## Usage
 Sparkall-GUI consits of three interfaces:
 - **1. Source injestion:** add a source by setting values to a set of prelisted options, mostly used by Spark.
 - **2. Source mapping:** map data entities and attributes to Ontology classes and predicates.
@@ -25,4 +28,11 @@ For more information, refer to the paper here: ["Teach me to fish" Querying Sema
 
 Screencasts of Sparkall GUIs: https://drive.google.com/drive/folders/10mkwMrbuxv71gtwE2etDzqANt8S9YXhr
 
-For more enquireis, contact me on: mami@cs.uni-bonn.de
+For more enquireis, contact me on: mami@cs.uni-bonn.de, or ask directly on [Gitter chat](https://gitter.im/sparkall).
+
+
+License
+-------
+
+This project is openly shared under the terms of the __Apache License
+v2.0__ ([read for more](./LICENSE)).
