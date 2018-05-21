@@ -28,6 +28,20 @@ For more information, refer to the paper here: ["Teach me to fish" Querying Sema
 
 Screencasts of Sparkall GUIs: https://drive.google.com/drive/folders/10mkwMrbuxv71gtwE2etDzqANt8S9YXhr
 
+## Try it
+A Dockerfile is available. Navigate to where the Dockerfile is located and then run:
+```
+sudo docker build -t sparkall-gui . # wait till finished
+sudo docker run -p 9000:9000 -it --rm sparkall-gui
+```
+Once done, open your browser at `localhost:9000/sparkall`.
+
+To see the generated config files, you need to 'log in' to the container by opening a bash inside it. To do so, run `sudo docker ps` and note the container name/id running the sparkall-gui image. Then run:
+```
+sudo docker exec -it [container_ID/name] bash
+```
+Once in the bash, navigate to `cd /usr/local/sparkall/conf`, there you find `config` and `mappings.ttl` files.
+
 ## Contact
 For more enquireis, contact me on: mami@cs.uni-bonn.de, or ask directly on [Gitter chat](https://gitter.im/sparkall).
 
