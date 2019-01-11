@@ -24,7 +24,7 @@ import sys.process._
  * application's home page.
  */
 @Singleton
-class SparkallController @Inject()(cc: ControllerComponents, playconfiguration: Configuration) extends AbstractController(cc) {
+class SquerallController @Inject()(cc: ControllerComponents, playconfiguration: Configuration) extends AbstractController(cc) {
 
 
   /**
@@ -34,19 +34,19 @@ class SparkallController @Inject()(cc: ControllerComponents, playconfiguration: 
    * a path of `/`.
    */
   def index = Action {
-    Ok(views.html.sparkall("Home", null))
+    Ok(views.html.squerall("Home", null))
   }
 
   def query = Action {
-    Ok(views.html.sparkall("Query", null))
+    Ok(views.html.squerall("Query", null))
   }
 
   def addSource = Action {
-    Ok(views.html.sparkall("Add source", null))
+    Ok(views.html.squerall("Add source", null))
   }
 
   def addMappings = Action {
-	
+
 	val sourcesConfFile = playconfiguration.underlying.getString("sourcesConfFile")
 
 	val data: String = Source.fromFile(sourcesConfFile).getLines.mkString
@@ -67,7 +67,7 @@ class SparkallController @Inject()(cc: ControllerComponents, playconfiguration: 
 		source_dtype = source_dtype + (s.entity -> s.dtype)
 	}
 
-    Ok(views.html.sparkall("Add mappings", source_dtype))
+    Ok(views.html.squerall("Add mappings", source_dtype))
   }
 
   def annotate(entity: String) = Action {
@@ -103,11 +103,11 @@ class SparkallController @Inject()(cc: ControllerComponents, playconfiguration: 
 			optionsPerStar.put(source, options)
 		}
 	}
-	
+
 	var schema = ""
 	var parquet_schema = ""
 	var res = ""
- 
+
 	if (dtype == "csv") {
 		if(source.contains("hdfs://")) {
 			import org.apache.hadoop.conf.Configuration
@@ -122,12 +122,12 @@ class SparkallController @Inject()(cc: ControllerComponents, playconfiguration: 
 			schema = (new BufferedReader(new InputStreamReader(input))).readLine()
 
 		} else {
-			val f = new File(source)		
+			val f = new File(source)
 			schema = firstLine(f).get // in theory, we always have a header
 		}
 
 	} else if (dtype == "parquet") {
-		
+
 		// TODO: parquet-tool used is for local parquet files, look docs to how to build it for hdfs
         parquet_schema = "java -jar /media/mmami/Extra/Scala/Web/parquet-mr/parquet-tools/target/parquet-tools-1.9.0.jar schema " + source !!
 
@@ -144,7 +144,7 @@ class SparkallController @Inject()(cc: ControllerComponents, playconfiguration: 
 		var table = (optionsPerStar.get(source)).get("table")
 		var keyspace = (optionsPerStar.get(source)).get("keyspace")
 
-		/*val hosts = Seq("127.0.0.1")		
+		/*val hosts = Seq("127.0.0.1")
   		val Connector = ContactPoints(hosts).keySpace("whatever")*/
 
 		var cluster : com.datastax.driver.core.Cluster = null;
@@ -153,16 +153,16 @@ class SparkallController @Inject()(cc: ControllerComponents, playconfiguration: 
 				    .addContactPoint("127.0.0.1")
 				    .build()
 
-			var session : com.datastax.driver.core.Session = cluster.connect()                                          
+			var session : com.datastax.driver.core.Session = cluster.connect()
 
-			var rs : com.datastax.driver.core.ResultSet = session.execute("select column_name from system_schema.columns where keyspace_name = '" + keyspace + "' and table_name ='" + table + "'");    
-			var it = rs.iterator()			
+			var rs : com.datastax.driver.core.ResultSet = session.execute("select column_name from system_schema.columns where keyspace_name = '" + keyspace + "' and table_name ='" + table + "'");
+			var it = rs.iterator()
 			while(it.hasNext()) {
 				var row = it.next()
-				schema = schema + row.getString("column_name") + ","    
-			}    
+				schema = schema + row.getString("column_name") + ","
+			}
 		} finally {
-			if (cluster != null) cluster.close();                                         
+			if (cluster != null) cluster.close();
 		}
 	} else if (dtype == "mongodb") {
 		import com.mongodb.MongoClient
@@ -170,7 +170,7 @@ class SparkallController @Inject()(cc: ControllerComponents, playconfiguration: 
 		var url = (optionsPerStar.get(source)).get("url")
 		var db = (optionsPerStar.get(source)).get("database")
 		var col = (optionsPerStar.get(source)).get("collection")
-				
+
         val mongoClient = new MongoClient(url)
         val database = mongoClient.getDatabase(db)
         val collection = database.getCollection(col)
@@ -185,7 +185,7 @@ class SparkallController @Inject()(cc: ControllerComponents, playconfiguration: 
                 set = set + x._1
             }
         }
-		
+
 		schema = set.mkString(",").replace("_id,","")
         mongoClient.close()
 	} else if (dtype == "jdbc") { // TODO: specify later MySQL, SQL Server, etc.
@@ -220,7 +220,7 @@ class SparkallController @Inject()(cc: ControllerComponents, playconfiguration: 
 		schema = omitLastChar(schema)
 	}
 
-	Ok(views.html.sparkall1("Annotate source", source, options, dtype, schema, entity))
+	Ok(views.html.squerall1("Annotate source", source, options, dtype, schema, entity))
   }
 
 	// helping methods

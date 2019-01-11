@@ -17,10 +17,8 @@ RUN set -x && \
 WORKDIR /usr/local
 
 RUN set -x && \
-    # Install Sparkall-GUI
-    git clone https://github.com/EIS-Bonn/sparkall-gui.git
-    #cd sparkall-gui && \
-    #sbt run # to generate JAR to submit to spark-submit
+    # Install Squerall-GUI
+    git clone https://github.com/EIS-Bonn/squerall-gui.git
 
 WORKDIR /usr/local/sparkall-gui
 

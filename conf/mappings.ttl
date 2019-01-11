@@ -100,7 +100,7 @@
 
 <#ReviewMapping>
 	rml:logicalSource [
-		rml:source "/media/mmami/EIS_Ext/Sparkall/data/reviews.parquet";
+		rml:source "/data/reviews.parquet";
 		nosql:Store nosql:parquet
 	];
 	rr:subjectMap [
@@ -175,7 +175,7 @@
 
 <#PersonMapping>
 	rml:logicalSource [
-		rml:source "/media/mmami/EIS_Ext/Sparkall/data/persons.csv/persons.csv";
+		rml:source "/data/persons.csv";
 		nosql:Store nosql:csv
 	];
 	rr:subjectMap [

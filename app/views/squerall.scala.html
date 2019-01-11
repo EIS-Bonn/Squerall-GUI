@@ -1,23 +1,23 @@
 @(message: String, data: Map[String,String])
 
 @if(message=="Home") {
-    @html("Sparkall - Dashboard") {
+    @html("Squerall - Dashboard") {
         @dashboard(message, style = "scala")
     }
 } else if(message=="Add source") {
-    @html("Sparkall - Add Source") {
+    @html("Squerall - Add Source") {
         @addSource(message, style = "scala")
     }
     <script src="@routes.Assets.versioned("javascripts/addSource.js")"></script>
 } else if(message=="Add mappings") {
-    @html("Sparkall - Add Source") {
+    @html("Squerall - Add Source") {
         @addMappings(message, data, style = "scala") @* data = entities *@
     }
 } else if(message=="Query") {
 	<link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/tt.css")" />
-    @html("Sparkall - Query") {
+    @html("Squerall - Query") {
         @query(message, style = "scala")
     }
 	<script src="@routes.Assets.versioned("javascripts/typeahead.bundle.min.js")"></script>
 	<script src="@routes.Assets.versioned("javascripts/query.js")"></script>
-} 
+}

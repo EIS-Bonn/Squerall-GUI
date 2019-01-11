@@ -9,16 +9,16 @@ GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
 GET     /message                    controllers.AsyncController.message
 
-GET     /sparkall                   controllers.SparkallController.index
+GET     /squerall                   controllers.SquerallController.index
 
-GET     /addSource                  controllers.SparkallController.addSource
+GET     /addSource                  controllers.SquerallController.addSource
 
-GET     /addMappings                controllers.SparkallController.addMappings
+GET     /addMappings                controllers.SquerallController.addMappings
 
-GET 	/addMappings/:entity		controllers.SparkallController.annotate(entity: String)
+GET 	/addMappings/:entity		controllers.SquerallController.annotate(entity: String)
 
 
-GET     /query                  	controllers.SparkallController.query
+GET     /query                  	controllers.SquerallController.query
 
 GET     /getPredicates              controllers.AjaxController.getPredicates(p, has : Option[String])
 
@@ -37,5 +37,3 @@ POST    /newMappings                controllers.AjaxController.newMappings
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
-
-

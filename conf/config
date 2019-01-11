@@ -7,7 +7,7 @@
 			"delimiter": ",",
 			"mode": "DROPMALFORMED"
 		},
-		"source": "/media/mmami/EIS_Ext/Sparkall/data/persons.csv/persons.csv",
+		"source": "/data/persons.csv",
 		"entity": "Person"
 	}
 	,	{
@@ -15,7 +15,7 @@
 		"options": {
 			"spark_sql_parquet_filterPushdown": "false"
 		},
-		"source": "/media/mmami/EIS_Ext/Sparkall/data/reviews.parquet",
+		"source": "/data/reviews.parquet",
 		"entity": "Review"
 	}
 	,	{
