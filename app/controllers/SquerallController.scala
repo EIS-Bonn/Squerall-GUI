@@ -127,67 +127,71 @@ class SquerallController @Inject()(cc: ControllerComponents, playconfiguration: 
 		}
 
 	} else if (dtype == "parquet") {
-
+		
+		val parquetToolsJar = playconfiguration.underlying.getString("parquetToolsJar")
+		
 		// TODO: parquet-tool used is for local parquet files, look docs to how to build it for hdfs
-        parquet_schema = "java -jar /media/mmami/Extra/Scala/Web/parquet-mr/parquet-tools/target/parquet-tools-1.9.0.jar schema " + source !!
+		parquet_schema = "java -jar " + parquetToolsJar + " schema " + source !!
 
-        parquet_schema  = parquet_schema.substring(parquet_schema.indexOf('\n') + 1)
+		parquet_schema  = parquet_schema.substring(parquet_schema.indexOf('\n') + 1)
 
-        var set = parquet_schema.split("\n").toSeq.map(_.trim).filter(_ != "}").map(f => f.split(" ")(2))
+		var set = parquet_schema.split("\n").toSeq.map(_.trim).filter(_ != "}").map(f => f.split(" ")(2))
 
-        for (s <- set) { schema = schema + "," + s.replace(";","") } // weirdly, there was a ; added from nowhere
+		for (s <- set) { schema = schema + "," + s.replace(";","") } // weirdly, there was a ; added from nowhere
 
-        schema = schema.substring(1)
-	} else if (dtype == "cassandra") {
-		import com.datastax.driver.core._
+        	schema = schema.substring(1)
+		
+		} else if (dtype == "cassandra") {
+			import com.datastax.driver.core._
 
-		var table = (optionsPerStar.get(source)).get("table")
-		var keyspace = (optionsPerStar.get(source)).get("keyspace")
+			var table = (optionsPerStar.get(source)).get("table")
+			var keyspace = (optionsPerStar.get(source)).get("keyspace")
 
-		/*val hosts = Seq("127.0.0.1")
-  		val Connector = ContactPoints(hosts).keySpace("whatever")*/
+			/*val hosts = Seq("127.0.0.1")
+			val Connector = ContactPoints(hosts).keySpace("whatever")*/
 
-		var cluster : com.datastax.driver.core.Cluster = null;
-		try {
-			cluster = com.datastax.driver.core.Cluster.builder()
-				    .addContactPoint("127.0.0.1")
-				    .build()
+			var cluster : com.datastax.driver.core.Cluster = null;
+			try {
+				cluster = com.datastax.driver.core.Cluster.builder()
+					    .addContactPoint("127.0.0.1")
+					    .build()
 
-			var session : com.datastax.driver.core.Session = cluster.connect()
+				var session : com.datastax.driver.core.Session = cluster.connect()
 
-			var rs : com.datastax.driver.core.ResultSet = session.execute("select column_name from system_schema.columns where keyspace_name = '" + keyspace + "' and table_name ='" + table + "'");
-			var it = rs.iterator()
-			while(it.hasNext()) {
-				var row = it.next()
-				schema = schema + row.getString("column_name") + ","
+				var rs : com.datastax.driver.core.ResultSet = session.execute("select column_name from system_schema.columns where keyspace_name = '" + keyspace + "' and table_name ='" + table + "'");
+				var it = rs.iterator()
+				while(it.hasNext()) {
+					var row = it.next()
+					schema = schema + row.getString("column_name") + ","
+				}
+			} finally {
+				if (cluster != null) cluster.close();
 			}
-		} finally {
-			if (cluster != null) cluster.close();
+		} else if (dtype == "mongodb") {
+			import com.mongodb.MongoClient
+
+			var url = (optionsPerStar.get(source)).get("url")
+			var db = (optionsPerStar.get(source)).get("database")
+			var col = (optionsPerStar.get(source)).get("collection")
+
+		val mongoClient = new MongoClient(url)
+		val database = mongoClient.getDatabase(db)
+		val collection = database.getCollection(col)
+
+		val myDoc = collection.find.first
+		println("collection: " + myDoc)
+
+		var set = Set[String]()
+		import scala.collection.JavaConverters._
+		for (cur <- collection.find.limit(100).asScala) {
+		    for (x <- cur.asScala){
+			set = set + x._1
+		    }
 		}
-	} else if (dtype == "mongodb") {
-		import com.mongodb.MongoClient
-
-		var url = (optionsPerStar.get(source)).get("url")
-		var db = (optionsPerStar.get(source)).get("database")
-		var col = (optionsPerStar.get(source)).get("collection")
-
-        val mongoClient = new MongoClient(url)
-        val database = mongoClient.getDatabase(db)
-        val collection = database.getCollection(col)
-
-        val myDoc = collection.find.first
-        println("collection: " + myDoc)
-
-        var set = Set[String]()
-        import scala.collection.JavaConverters._
-        for (cur <- collection.find.limit(100).asScala) {
-            for (x <- cur.asScala){
-                set = set + x._1
-            }
-        }
 
 		schema = set.mkString(",").replace("_id,","")
-        mongoClient.close()
+        	mongoClient.close()
+		
 	} else if (dtype == "jdbc") { // TODO: specify later MySQL, SQL Server, etc.
 		import java.sql.{Connection, DriverManager}
 
@@ -197,48 +201,48 @@ class SquerallController @Inject()(cc: ControllerComponents, playconfiguration: 
 		var password = (optionsPerStar.get(source)).get("password")
 		var dbtable = (optionsPerStar.get(source)).get("dbtable")
 
-        // there's probably a better way to do this
-        var connection: Connection = null
+		// there's probably a better way to do this
+		var connection: Connection = null
 
-        try {
-            // make the connection
-            Class.forName(driver)
-            connection = DriverManager.getConnection(url, username, password)
+		try {
+		    // make the connection
+		    Class.forName(driver)
+		    connection = DriverManager.getConnection(url, username, password)
 
-            // create the statement, and run the select query
-            val statement = connection.createStatement()
-            val resultSet = statement.executeQuery("SHOW COLUMNS FROM " + dbtable)
-            while ( resultSet.next() ) {
-                val field = resultSet.getString("Field")
-                schema = schema + field + ","
-            }
-        } catch {
-            case e : Throwable => e.printStackTrace
-        }
+		    // create the statement, and run the select query
+		    val statement = connection.createStatement()
+		    val resultSet = statement.executeQuery("SHOW COLUMNS FROM " + dbtable)
+		    while ( resultSet.next() ) {
+			val field = resultSet.getString("Field")
+			schema = schema + field + ","
+		    }
+		} catch {
+		    case e : Throwable => e.printStackTrace
+		}
 
-        connection.close()
+        	connection.close()
 		schema = omitLastChar(schema)
 	}
 
 	Ok(views.html.squerall1("Annotate source", source, options, dtype, schema, entity))
   }
 
-	// helping methods
-	def firstLine(f: java.io.File): Option[String] = {
-		val src = Source.fromFile(f)
-		try {
-			src.getLines.find(_ => true)
-	  	} finally {
-			src.close()
-	  	}
+// helping methods
+def firstLine(f: java.io.File): Option[String] = {
+	val src = Source.fromFile(f)
+	try {
+		src.getLines.find(_ => true)
+	} finally {
+		src.close()
 	}
+}
 
-	def omitLastChar(str: String): String = {
-		var s = ""
-		if (str != null && str.length() > 0) {
-		    s = str.substring(0, str.length() - 1)
-		}
-		s
+def omitLastChar(str: String): String = {
+	var s = ""
+	if (str != null && str.length() > 0) {
+	    s = str.substring(0, str.length() - 1)
 	}
+	s
+}
 
 }
