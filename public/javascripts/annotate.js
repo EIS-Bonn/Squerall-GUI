@@ -8,7 +8,7 @@ $(document).ready(function(){
 		var attr = ths.attr("id")
 		$.ajax({
 			method: "GET",
-			url: "http://lov.okfn.org/dataset/lov/api/v2/term/search",
+			url: "https://lov.linkeddata.es/dataset/lov/api/v2/term/search",
 			data: { q: attr },
 			dataType: "json",
 		}).done(function(data) {
@@ -28,7 +28,7 @@ $(document).ready(function(){
 			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
 			remote: {
-				url: 'http://lov.okfn.org/dataset/lov/api/v2/term/search?q=%q&type=property',
+				url: 'https://lov.linkeddata.es/dataset/lov/api/v2/term/search?q=%q&type=property',
 				wildcard: '%q',
 				transform: function (results) {
 					// Map the remote source JSON array to a JavaScript object array
@@ -80,7 +80,7 @@ $(document).ready(function(){
 		 	datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 		  	queryTokenizer: Bloodhound.tokenizers.whitespace,
 		  	remote: {
-				url: 'http://lov.okfn.org/dataset/lov/api/v2/term/search?q=%q&type=class',
+				url: 'https://lov.linkeddata.es/dataset/lov/api/v2/term/search?q=%q&type=class',
 				wildcard: '%q',
 				transform: function (results) {
 					// Map the remote source JSON array to a JavaScript object array
@@ -138,6 +138,7 @@ $(document).ready(function(){
 	$("#addMappings").click(function() {
 
 		var map = new Map();
+		var short_nsEmpty = false
 
 		$(".attr[id]").each(function() {
 			var pred = $(this).attr("id")
@@ -148,11 +149,20 @@ $(document).ready(function(){
 				short_ns = bits[0]
 				mapping = bits[1]
 			} else {
-				short_ns = $("#shortns-" + pred).val() 
+				short_ns = $("#shortns-" + pred).val()
+			
+				if (short_ns == "") {
+					short_nsEmpty = true
+					alert("Please enter the namespace of the manually entered class/property for the attribute [" + pred + "]. For example: [npg>http://ns.nature.com/terms/date]")
+
+					$(this).css("background-color","f2dede")
+					$(this).focus()
+				}
 			}			
 
 			map.set(pred, short_ns + "___" + mapping)			
 		})
+
 		var pk = $('input[name=pk]:checked').val()
 		var dtype = $("#dtype").val()
 		var shortns_clss = $("#shortns_clss").val()
@@ -161,14 +171,28 @@ $(document).ready(function(){
 		var src = $("#src").val()
 		var entity = $("#entity").val()
 
-		$.ajax({
-			method: "POST",
-			url: "/newMappings",
-			data: { mappings: mapToJson(map), pk: pk, dtype: dtype, clss: clss, ns_clss: ns_clss, shortns_clss: shortns_clss, src: src, entity: entity},
-	 		dataType: "json",
-		}).done(function(data) {
-
-		})
+		if (!short_nsEmpty) {
+			$(".attr").css("background-color","#fff")
+			$.ajax({
+				method: "POST",
+				url: "/newMappings",
+				data: { mappings: mapToJson(map), pk: pk, dtype: dtype, clss: clss, ns_clss: ns_clss, shortns_clss: shortns_clss, src: src, entity: entity},
+				dataType: "json",
+				success: function(data) {
+					$("#map-success").show().html(data)		
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert('An error occurred... open console for more information!');
+					$('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+					console.log('jqXHR:');
+					console.log(jqXHR);
+					console.log('textStatus:');
+					console.log(textStatus);
+					console.log('errorThrown:');
+					console.log(errorThrown);
+				}
+			})
+		}
 	})
 
 	$("#addField").click(function() {
@@ -186,6 +210,7 @@ $(document).ready(function(){
 		} else
 			$("#fieldAdded").css("color","red").html("Field name empty!")
 	})
+
 })
 
 function mapToJson(map) {

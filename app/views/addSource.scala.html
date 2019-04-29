@@ -3,7 +3,7 @@
 @defining(play.core.PlayVersion.current) { version =>
 
 <div class="alert alert-info" role="alert">
-Select a data source to connect to from the above list:
+Select a data source to connect to from the below list
 </div>
 
 <ul class="list-group">
@@ -28,6 +28,11 @@ Select a data source to connect to from the above list:
         <span class="badge badge-primary badge-pill btn btn-primary addSrc" data-toggle="modal" data-type="jdbc">add</span>
     </li>
 </ul>
+
+<div class="alert alert-warning" role="alert" style="margin-top: 300px;">
+    - CSV schema extractor only accepts path to the exact CSV file, not the folder where it is stored.</br>
+    - To allow Parquet schema extraction, you have to set the value for pathToParquetToolsJar in 'application.conf' (see the Docs). </br>
+</div>
 
 
 <!-- Modal -->

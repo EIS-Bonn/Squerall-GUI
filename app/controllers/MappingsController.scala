@@ -1,25 +1,28 @@
 package controllers
-
 import javax.inject._
-
 import play.api.mvc._
+import org.dizitart.no2.Nitrite
+import org.dizitart.no2.NitriteId
+import org.dizitart.no2.Document
+import org.dizitart.no2.NitriteCollection
+import services.MappingsDB
 
-/**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
+
 @Singleton
-class AddMappingController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class MappingsController @Inject() (cc: ControllerComponents, database: MappingsDB) extends AbstractController(cc) {
+                                
+  def insert = Action(parse.tolerantFormUrlEncoded) {
 
-  /**
-   * Create an Action to render an HTML page with a welcome message.
-   * The configuration in the `routes` file means that this method
-   * will be called when the application receives a `GET` request with
-   * a path of `/`.
-   */
+    val db : Nitrite = database.connectDB
+    
+		var collection : NitriteCollection = db.getCollection("mappings")
+		var doc = Document.createDocument("entity", 4)
+			.put("source", 1)
+			.put("ID", 2)
+			.put("class", 3)
 
-  def annotate(entity: String) = Action {
-    Ok(":::")
+    collection.insert(doc)
+
+    Ok("Document added") 
   }
 }
-

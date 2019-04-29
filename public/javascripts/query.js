@@ -5,9 +5,13 @@ $(document).ready(function () {
 
 	var i = 0
 	var filtersAdd = false
+	var prologMap = new Map()
+	var predColorMap = new Map()
+	var colors = ['FFC0CB', '98FB98', '66CDAA', 'F5DEB3', 'E0FFFF', 'E6E6FA', 'D3D3D3', 'FFF8DC	']
+
 
 	/* auto-suggest: predicates */
-	function auto_suggest_predicate(selector) {		
+	function auto_suggest_predicate(selector) {
 		if(selector == "#predicate") {
 			//alert("#pred")
 			var getPredicates = new Bloodhound({
@@ -26,21 +30,21 @@ $(document).ready(function () {
 					}
 				}
 			});
-		} else if(selector == ".predicate") {			
-			var previousPredicate = $("#predicate").val()
-			//alert(".pred " + previousPredicate)
-			console.log("previousPredicate " + previousPredicate)
+		} else if(selector == ".predicate") {
+			var hasPredicate = ""		
 			var getPredicates = new Bloodhound({
 				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 				queryTokenizer: Bloodhound.tokenizers.whitespace,
 				remote: {
 					url: '/getPredicates',
-					//wildcard: '%p',
 					prepare: function (query, settings) {
-						//settings.type = "POST";
-						//settings.contentType = "application/json; charset=UTF-8";
+						hasPredicate = '&has=' + encodeURIComponent($("#predicate").val());
+						$(".predicate[placeholder]").not(this).each(function() { // the input copy the autosuggest plugin creates does not have this attribute, so we can filter with it (to avoid selecting the copy)
+							if($(this).val() != query) 
+								hasPredicate += '&has=' + encodeURIComponent($(this).val()) // don't send the values of the current .predicate input, it's just string, it doesn't exis in the mappings
+						});
 						settings.url += '?p=' + query;
-						settings.url += '&has=' + encodeURIComponent($("#predicate").val());
+						settings.url += hasPredicate;
 						return settings;
 					},
 					transform: function (results) {
@@ -71,10 +75,6 @@ $(document).ready(function () {
 			},
 			limit: 10
 		})
-
-		/*$('#predicate').bind('typeahead:select', function(ev, suggestion) {
-			$(this).val("ddd")
-		});*/
 	}
 
 	$(document).on("click", ".predicatesGroup", function () {
@@ -197,9 +197,9 @@ $(document).ready(function () {
 
 	$("body").keyup(function(e) {
 		//var code = e.keyCode || e.which;
-		if (e.keyCode == 13 && e.shiftKey) { // 2 shift & 13 enter 
+		if (e.keyCode == 13 && e.shiftKey) { // 2 shift & 13 enter
 			var triple = '<tr class="pred_obj_tr addedTriple"><td style="width: 50%;"><input type="text" data-take="true" class="form-control noborder predicate" placeholder="predicate" /></td>' +
-						 '<td style="width: 50%;"><input type="text" class="form-control noborder object" placeholder="object (Literal or Join variable)" /></td></tr>'
+						 '<td style="width: 50%;"><input type="text" class="form-control noborder object" placeholder="object" /></td></tr>'
 			$("#triplesTable tr:last").after(triple)
 
 			$("#predicatesGroupModal > modal-body > input").val("")
@@ -208,33 +208,43 @@ $(document).ready(function () {
 	})
 
 	$("#saveTriple").click(function () {
-		
+		var color = "" 
 		var pred_obj = new Map()
 		var addToQuery = ""
-		
-		var sub = $("#subject").val()		
-	
-		var firstPred = $("#predicate").val()
+		var sub = $("#subject").val()
+		var firstPred = $("#predicate").val().split(" (")
+		var firstPredicate = firstPred[0]
+		var predicateBits = firstPredicate.split(":")
+		var shortNamesapce = predicateBits[0]
+		var ns = firstPred[1]
+		var namespace = ns.replace(")","")
+		prologMap.set(shortNamesapce,namespace)
 		var firstObj = $("#object").val()
+
+		if (predColorMap.has(sub))
+			color = predColorMap.get(sub)
+		else {
+			color = colors[Math.floor(Math.random() * colors.length)]
+			predColorMap.set(sub,color)
+		}
+		
 		pred_obj.set(firstPred,firstObj)
 
-		//var valOrStar = firstObj.charAt(0)
-		//if(valOrStar != "?") 
-		//	var o = firstObj 
-		//else 
-			var o = "<a href='#' class='predicatesGroup' data-pred='" + firstObj + "'>?" + firstObj
-		addToQuery += "<br>?" + sub + " " + firstPred + " " + o + "</a> ."
+		var o = "<a href='#' class='predicatesGroup' data-pred='" + firstObj + "'>?" + firstObj
+		addToQuery += "<div style='background-color: #" + color + "'>?" + sub + " " + firstPredicate + " " + o + "</a> .</div>"
 
 		$(".predicate").not(".tt-hint").each(function () { // not .tt-hint avoid hidden duplicate input (from typeahead library)
-			var pred = $(this).val()
+			var pred = $(this).val().split(" (")
+			var predicate = pred[0]
+			var shortNamesapce1 = predicate.split(":")[0]
+			var namespace1 = pred[1].replace(")","")
 			var obj = $(this).closest('td').next().find('.object').val()
 			pred_obj.set(pred,obj)
 			valOrStar = obj.charAt(0)
-			//if(valOrStar == "\"") 
-			//	var o = obj 
-			//else 
-				var o = "<a href='#' class='predicatesGroup' data-pred='" + obj + "'>?" + obj
-			addToQuery += "<br>?" + sub + " " + pred + " " + o + "</a> ."
+			prologMap.set(shortNamesapce1,namespace1)
+			
+			var o = "<a href='#' class='predicatesGroup' data-pred='" + obj + "'>?" + obj
+			addToQuery += "<div style='background-color: #" + color + "'>?" + sub + " " + predicate + " " + o + "</a> .</div>"
 		})
 
 		// Fill sessionSotorage with the i'th triple 
@@ -243,15 +253,22 @@ $(document).ready(function () {
 		triple.p_o = mapToJson(pred_obj)
 		sessionStorage.setItem('triple_' + i, JSON.stringify(triple))
 
-		// Ceck the content of the sessionstorage
+		// Check the content of the sessionstorage
 		var po = jsonToMap(JSON.parse(sessionStorage.getItem('triple_' + i)).p_o)
 		console.log(po)
-		po.forEach(function (value, key, mapObj) {  
+		po.forEach(function (value, key, mapObj) {
 			console.log(key.toString() + "=" + value.toString());  
 		});
 		
 		i = i + 1
 		$("#select, #where").show()
+		
+		$("#prolog").html("")
+		for (var [key, value] of prologMap) {		
+			var imprt = key + ": <" + value + ">"
+			$("#prolog").append(imprt.replace(">","&gt;").replace("<","&lt;") + "<br />").show()
+		}
+		
 		$("#triple-patterns").append(addToQuery)		
 		$(".addedTriple").remove()
 		$("#subject, #predicate, #object").val("")

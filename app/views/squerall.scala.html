@@ -4,6 +4,10 @@
     @html("Squerall - Dashboard") {
         @dashboard(message, style = "scala")
     }
+} else if(message=="db") {
+    @html("Squerall - Dashboard") {
+        @dashboard(message, style = "scala")
+    }
 } else if(message=="Add source") {
     @html("Squerall - Add Source") {
         @addSource(message, style = "scala")
@@ -13,6 +17,7 @@
     @html("Squerall - Add Source") {
         @addMappings(message, data, style = "scala") @* data = entities *@
     }
+    <script src="@routes.Assets.versioned("javascripts/export.js")"></script>
 } else if(message=="Query") {
 	<link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/tt.css")" />
     @html("Squerall - Query") {

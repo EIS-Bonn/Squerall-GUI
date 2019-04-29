@@ -3,11 +3,11 @@
 @defining(play.core.PlayVersion.current) { version =>
 
 <div class="alert alert-info" role="alert">
-	Build your quiry using the query blocks below.
+	Build your query by 'gradually' entering entities and links between entities. For example an entity for "<b>Product</b>" followed by an entity for "<b>Producer</b>" then link them.
 </div>
 
 <div>
-	<button type="button" class="btn btn-primary predicatesGroup" data-pred="">1. Add a star</button>	
+	<button type="button" class="btn btn-primary predicatesGroup" data-pred="">1. Add an entity</button>	
 	<button type="button" class="btn btn-primary" id="addSelect">2. Add a select</button>
 	<button type="button" class="btn btn-primary" id="addFilters">3. Add filters</button>
 	<button type="button" class="btn btn-primary" id="addTransform">4. Add transformations</button>
@@ -15,7 +15,8 @@
 
 <div style="margin-top: 80px;">
 	Generated SPARQL query
-	<div id="sparql" style="background-color: #eaf2f9; padding: 20px;">
+    <div id="sparql" style="background-color: #eaf2f9; padding: 20px;">
+        <div id="prolog" style="display: none;"></div>
 		<div id="select" style="display: none;">SELECT <span id="selected-vars">?</span></div>
 		<div id="where" style="display: none;">
 			WHERE { <span id="triple-patterns"></span> <br>
@@ -23,7 +24,7 @@
 					FILTER (<span id="filter-conditions"></span>)
 				</div>
 				<div id="transform" style="display: none;">
-					TRANSFORM ( <span id="transforms"></span>)
+					TRANSFORM (<span id="transforms"></span>)
 				</div>	
 			}
 		</div>
@@ -31,12 +32,10 @@
 	<button type="button" class="btn btn-primary disabled" id="addJoin">Highlight joins</button>
 	<button type="button" class="btn btn-primary disabled" id="addJoin">Download query</button>
 
-
 	<div class="alert alert-warning" role="alert" style="margin-top: 300px;">
-		Currently not possible to:</br>
-		- Edit the query, refresh to create anew.</br>
-		- Declare star type (coming soon), add manually.</br>
-		- Use literal objectsn use FILTER instead.
+        - Refresh to create a new query.</br>
+        - Add type manually (type specification will be supported soon)</br>
+		- Contact object is not possible, create a variable and add 'filter' for it.
 	</div>
 </div>
 
@@ -55,7 +54,7 @@
 				<label for="subject">Subject variable: <input style="width: 50%;" type="text" name="subject" class="form-control noborder" id="subject" ></label>													
 				<table id="triplesTable" style="width: 100%;">
 					<tr class="pred_obj_tr">
-						<td style="width: 50%;"><input type="text" class="form-control noborder" id="predicate" placeholder="predicate" ></td>
+						<td style="width: 50%;"><input type="text" class="form-control noborder hasPredicate" id="predicate" placeholder="predicate" ></td>
 						<td style="width: 50%;"><input type="text" class="form-control noborder" id="object" placeholder='object (enter ?variable")'></td>								
 					</tr>
 				</table>

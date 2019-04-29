@@ -21,7 +21,7 @@ Click annotate to create the mappings
 		@for((k,v) <- options){ 
 			<tr>
 				<td>@k</td>
-				<td style="word-wrap: break-word">@v</td
+				<td style="word-wrap: break-word">@v</td>
 			</tr>
 		} 
 	  </tbody>
@@ -35,7 +35,7 @@ Click annotate to create the mappings
 <input type="hidden" value="@entity" id="entity" class="form-control" />
 <div>
 	<div class="alert alert-info" role="alert" style="margin-top: 50px;">
-	We suggest an annotation, if not adequate, choose another or enter new. To enter new, follow this template: [short namespace]>[URI].
+	We auto-suggest a mapping, if not adequate, search for another one or enter a new. The latter should follow this template: [short namespace]>[URI], e.g. npg>http://ns.nature.com/terms/date
 	</div>
 		
 	<div style="margin-bottom: 20px;">
@@ -74,6 +74,9 @@ Click annotate to create the mappings
 		<button type="button" class="btn btn-primary" id="addField">Add fields</button>
 		}
 	<button type="button" class="btn btn-primary" id="addMappings">Save</button>
+	<span class="alert alert-success" role="alert" style="margin-top: 10px; display: none;" id="map-success">Entity mapping added.</span>
+	<div class="alert alert-danger" role="alert" style="margin-top: 10px; ">Caution: if the entity mapping exists, it will be overwritten.</div>
+		
 </div>
 
 <!-- Modal -->
@@ -82,21 +85,20 @@ Click annotate to create the mappings
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="sourceModalLabel">Add a new field</h5>
-				<input type='hidden' id='slctdSrc' />
+								<input type='hidden' id='slctdSrc' />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" >
-				<div class="form-group">
-                	Field name: <input class="form-control" id="newField"/>
-				</div>
+							<div class="form-group">
+												Field name: <input class="form-control" id="newField"/>
+							</div>
             </div>
             <div class="modal-footer">
-				<span role="alert" id="fieldAdded"></span>
+								<span role="alert" id="fieldAdded"></span>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveField">Add field</button>
-				
+                <button type="button" class="btn btn-primary" id="saveField">Add field</button>							
             </div>
         </div>
     </div>
