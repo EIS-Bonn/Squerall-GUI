@@ -9,11 +9,9 @@ $(document).ready(function () {
 	var predColorMap = new Map()
 	var colors = ['FFC0CB', '98FB98', '66CDAA', 'F5DEB3', 'E0FFFF', 'E6E6FA', 'D3D3D3', 'FFF8DC	']
 
-
 	/* auto-suggest: predicates */
 	function auto_suggest_predicate(selector) {
 		if(selector == "#predicate") {
-			//alert("#pred")
 			var getPredicates = new Bloodhound({
 				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 				queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -87,7 +85,10 @@ $(document).ready(function () {
 
 	$("#addSelect").click(function () {
 		var selectString = ""
-		$.each(sessionStorage, function(key, value) {
+		//$.each(sessionStorage, function(key, value) {
+		for (var i=0; i < sessionStorage.length; i++){
+			var key = sessionStorage.key(i)
+			var value = sessionStorage.getItem(key)
 			var item_value = JSON.parse(value)
 		  	var sub = item_value.subject
 			var pred_obj = item_value.p_o
@@ -97,10 +98,9 @@ $(document).ready(function () {
 			po.forEach(function (value, key, mapObj) {
 				var pred = key.toString()
 				var obj = value.toString()
-				//if(obj.charAt(0) == "?")
-					selectString += "<label><input type='checkbox' class='var' value='" + obj + "' /> ?" + obj + "</label></br>"
+				selectString += "<label><input type='checkbox' class='var' value='" + obj + "' /> ?" + obj + "</label></br>"
 			})
-		})
+		}
 
 		$("#selectableVars").html(selectString)
 		$("#selectModal").modal('toggle')
@@ -108,21 +108,21 @@ $(document).ready(function () {
 
 	$("#addFilters").click(function () {
 		var filters = ""
-		$.each(sessionStorage, function(key, value) {
-			var item_value = JSON.parse(value) // {"subject":"o","p_o":"[[\"http://purl.org/ontology/mo/producer\",\"p\"]]"}
+		for (var i=0; i < sessionStorage.length; i++){
+			var key = sessionStorage.key(i)
+			var value = sessionStorage.getItem(key)
+			var item_value = JSON.parse(value) // {"subject":"o","p_o":"[["http://purl.org/ontology/mo/producer","p"]]"}
 		  	var sub = item_value.subject
 			var pred_obj = item_value.p_o
 			var po = jsonToMap(pred_obj)			
 
-			//filters += "<span>?" + sub + " " + options + " <input type='text' class='form-control noborder' /></span><br/>" TODO: develop filtering on subjects
 			po.forEach(function (value, key, mapObj) {				
 				var pred = key.toString()
 				var obj = value.toString()
 				var options = "<select id='" + obj + "' class='select_filter'><option>=</option><option>!=</option><option>&lt;</option><option>&gt;</option><option>&le;</option><option>&ge;</option><option>RegEx</select></br>"
-				//if(obj.charAt(0) == "?")
-					filters += "<span>?" + obj + " " + options + " <input type='text' class='form-control noborder filter-vals' id='" + obj + "-filterVar' /></span><br/>"
+				filters += "<span>?" + obj + " " + options + " <input type='text' class='form-control noborder filter-vals' id='" + obj + "-filterVar' /></span><br/>"
 			})
-		})
+		}
 
 		$("#filters").html(filters)
 		$("#filtersModal").modal('toggle')
@@ -130,7 +130,9 @@ $(document).ready(function () {
 
 	$("#addTransform").click(function () {
 		var transformations = ""
-		$.each(sessionStorage, function(key, value) {
+		for (var i=0; i < sessionStorage.length; i++){
+			var key = sessionStorage.key(i)
+			var value = sessionStorage.getItem(key)
 			var item_value = JSON.parse(value)
 		  	var sub = item_value.subject
 			var pred_obj = item_value.p_o
@@ -139,10 +141,9 @@ $(document).ready(function () {
 			po.forEach(function (value, key, mapObj) {
 				var pred = key.toString()
 				var obj = value.toString()
-				//if(obj.charAt(0) == "?")
-					transformations += "<span>?" + sub + "?" + obj + " <input type='text' class='form-control noborder transf' data-join='?" + sub + "?" + obj + "' /></span><br/>"
+				transformations += "<span>?" + sub + "?" + obj + " <input type='text' class='form-control noborder transf' data-join='?" + sub + "?" + obj + "' /></span><br/>"
 			})
-		})
+		}
 
 		$("#transformations").html(transformations)
 		$("#transformModal").modal('toggle')
@@ -169,13 +170,13 @@ $(document).ready(function () {
 			var selected_filter = $(this).find(":selected").text()
 			var id = $(this).attr("id")
 			var filterVal = $("#" + id + "-filterVar").val()
-			if(filterVal != "")
+			if (filterVal != "")
 				filters += " . ?" + id + " " + selected_filter + " " + filterVal
 		})
 
 		$("#filter").show()
 		
-		if(!filtersAdd) {
+		if (!filtersAdd) {
 			$("#filter-conditions").append(filters.substring(3))
 			filtersAdd = true		
 		} else
@@ -196,7 +197,6 @@ $(document).ready(function () {
 	})
 
 	$("body").keyup(function(e) {
-		//var code = e.keyCode || e.which;
 		if (e.keyCode == 13 && e.shiftKey) { // 2 shift & 13 enter
 			var triple = '<tr class="pred_obj_tr addedTriple"><td style="width: 50%;"><input type="text" data-take="true" class="form-control noborder predicate" placeholder="predicate" /></td>' +
 						 '<td style="width: 50%;"><input type="text" class="form-control noborder object" placeholder="object" /></td></tr>'
@@ -218,7 +218,10 @@ $(document).ready(function () {
 		var shortNamesapce = predicateBits[0]
 		var ns = firstPred[1]
 		var namespace = ns.replace(")","")
+		var bits = namespace.split("/")			
+		namespace = namespace.replace(bits[bits.length-1],"") // E.g. remove "producer" from "http://purl.org/ontology/mo/producer"
 		prologMap.set(shortNamesapce,namespace)
+
 		var firstObj = $("#object").val()
 
 		if (predColorMap.has(sub))
@@ -228,7 +231,7 @@ $(document).ready(function () {
 			predColorMap.set(sub,color)
 		}
 		
-		pred_obj.set(firstPred,firstObj)
+		pred_obj.set(firstPredicate,firstObj)
 
 		var o = "<a href='#' class='predicatesGroup' data-pred='" + firstObj + "'>?" + firstObj
 		addToQuery += "<div style='background-color: #" + color + "'>?" + sub + " " + firstPredicate + " " + o + "</a> .</div>"
@@ -236,14 +239,17 @@ $(document).ready(function () {
 		$(".predicate").not(".tt-hint").each(function () { // not .tt-hint avoid hidden duplicate input (from typeahead library)
 			var pred = $(this).val().split(" (")
 			var predicate = pred[0]
-			var shortNamesapce1 = predicate.split(":")[0]
-			var namespace1 = pred[1].replace(")","")
+			var shortNamesapce1 = predicate.split(":")[0]			
 			var obj = $(this).closest('td').next().find('.object').val()
-			pred_obj.set(pred,obj)
+			pred_obj.set(predicate,obj)
 			valOrStar = obj.charAt(0)
-			prologMap.set(shortNamesapce1,namespace1)
+
+			var namespace1 = pred[1].replace(")","")
+			var bits = namespace1.split("/")			
+			namespace1 = namespace1.replace(bits[bits.length-1],"") // E.g. remove "producer" from "http://purl.org/ontology/mo/producer"
+			prologMap.set(shortNamesapce1,namespace1) 
 			
-			var o = "<a href='#' class='predicatesGroup' data-pred='" + obj + "'>?" + obj
+			var o = "<a href='#' class='predicatesGroup' data-pred='" + obj + "'>?" + obj			
 			addToQuery += "<div style='background-color: #" + color + "'>?" + sub + " " + predicate + " " + o + "</a> .</div>"
 		})
 
@@ -255,9 +261,8 @@ $(document).ready(function () {
 
 		// Check the content of the sessionstorage
 		var po = jsonToMap(JSON.parse(sessionStorage.getItem('triple_' + i)).p_o)
-		console.log(po)
 		po.forEach(function (value, key, mapObj) {
-			console.log(key.toString() + "=" + value.toString());  
+			console.log(key.toString() + "=" + value.toString())
 		});
 		
 		i = i + 1
@@ -273,6 +278,9 @@ $(document).ready(function () {
 		$(".addedTriple").remove()
 		$("#subject, #predicate, #object").val("")
 		$("#predicatesGroupModal").modal('toggle')
+		$("#addSelect").removeClass("disabled")
+		$("#addFilters").removeClass("disabled")
+		$("#downloadQuery").removeClass("disabled")
 	})
 
 	function mapToJson(map) {

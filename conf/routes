@@ -1,38 +1,42 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
-# An example controller showing how to use dependency injection
-GET     /count                      controllers.CountController.count
-# An example controller showing how to write asynchronous code
-GET     /message                    controllers.AsyncController.message
 
-GET     /squerall                   controllers.SquerallController.index
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                        controllers.Assets.versioned(path="/public", file: Asset)
 
-GET     /addSource                  controllers.SquerallController.addSource
+GET     /squerall                            controllers.SquerallController.index
 
-GET     /addMappings                controllers.SquerallController.addMappings
+GET     /squerall/addSource                  controllers.SquerallController.addSource
 
-GET 	/addMappings/:entity		controllers.SquerallController.annotate(entity: String)
+GET     /squerall/addMappings                controllers.SquerallController.addMappings
 
+GET 	/squerall/addMappings/:entity		 controllers.SquerallController.annotate(entity: String)
 
-GET     /query                  	controllers.SquerallController.query
+GET     /squerall/query                  	 controllers.SquerallController.query
 
-GET     /getPredicates              controllers.AjaxController.getPredicates(p, has : Option[String])
+GET     /squerall/insert                     controllers.MappingsController.insert
 
 + nocsrf
-POST    /getEmptyOptions            controllers.AjaxController.getEmptyOptions
+POST    /newMappings                         controllers.AjaxController.newMappings
 
 + nocsrf
-POST    /setOptions                 controllers.AjaxController.setOptions
+POST    /getEmptyOptions                     controllers.AjaxController.getEmptyOptions
 
 + nocsrf
-POST    /newMappings                controllers.AjaxController.newMappings
+POST    /setOptions                          controllers.AjaxController.setOptions
 
++ nocsrf
+POST    /newMappings                         controllers.AjaxController.newMappings
 
++ nocsrf
+POST    /exportMappings                      controllers.AjaxController.exportMappings
 
+GET     /getPredicates                       controllers.AjaxController.getPredicates(p, has : Option[Seq[String]])
 
 
 # Map static resources from the /public folder to the /assets URL path

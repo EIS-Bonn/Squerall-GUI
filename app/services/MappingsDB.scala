@@ -1,13 +1,9 @@
 package services
 
 import javax.inject._
-//import play.api.inject.ApplicationLifecycle
-
 import play.api.Logger
-
+import play.api.Configuration
 import org.dizitart.no2.Nitrite
-
-import scala.concurrent.Future
 
 trait MappingsDB  {
   def connectDB () : Nitrite
@@ -15,16 +11,16 @@ trait MappingsDB  {
 }
 
 @Singleton
-//class MappingsDBInstance @Inject() (appLifecycle: ApplicationLifecycle)  extends MappingsDB {
-class MappingsDBInstance @Inject() extends MappingsDB {
+class MappingsDBInstance @Inject()(playconfiguration: Configuration) extends MappingsDB {
   Logger.info(s"MappingsDB: Starting a database connection.")
 
   var db : Nitrite = null
 
   override def connectDB () : Nitrite = {
+    val mappingsDB = playconfiguration.underlying.getString("mappingsDB")
     if (db == null) {
       db = Nitrite.builder()
-        .filePath("/home/mmami/Data/mappingsDB.db")
+        .filePath(mappingsDB)
         .openOrCreate()
     }
     db
@@ -33,11 +29,4 @@ class MappingsDBInstance @Inject() extends MappingsDB {
   override def getDB () : Nitrite = {
     db
   }
-
-  /*appLifecycle.addStopHook { () =>
-    Logger.info(s"CloseDB: closing database connection.")
-    db.commit()
-    Future.successful(db.close())
-  }*/
-  
 }

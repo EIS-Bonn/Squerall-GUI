@@ -8,9 +8,9 @@
 
 <div>
 	<button type="button" class="btn btn-primary predicatesGroup" data-pred="">1. Add an entity</button>	
-	<button type="button" class="btn btn-primary" id="addSelect">2. Add a select</button>
-	<button type="button" class="btn btn-primary" id="addFilters">3. Add filters</button>
-	<button type="button" class="btn btn-primary" id="addTransform">4. Add transformations</button>
+	<button type="button" class="btn btn-primary disabled" id="addSelect">2. Add a select</button>
+	<button type="button" class="btn btn-primary disabled" id="addFilters">3. Add filters</button>
+	<button type="button" class="btn btn-primary disabled" id="addTransform">4. Add transformations</button>
 </div>
 
 <div style="margin-top: 80px;">
@@ -21,7 +21,7 @@
 		<div id="where" style="display: none;">
 			WHERE { <span id="triple-patterns"></span> <br>
 				<div id="filter" style="display: none;">
-					FILTER (<span id="filter-conditions"></span>)
+					FILTER (<span id="filter-conditions"></span>) .
 				</div>
 				<div id="transform" style="display: none;">
 					TRANSFORM (<span id="transforms"></span>)
@@ -29,8 +29,7 @@
 			}
 		</div>
 	</div>
-	<button type="button" class="btn btn-primary disabled" id="addJoin">Highlight joins</button>
-	<button type="button" class="btn btn-primary disabled" id="addJoin">Download query</button>
+	<button type="button" class="btn btn-primary disabled" id="downloadQuery">Download query</button>
 
 	<div class="alert alert-warning" role="alert" style="margin-top: 300px;">
         - Refresh to create a new query.</br>
