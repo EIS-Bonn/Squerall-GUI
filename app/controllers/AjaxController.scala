@@ -208,7 +208,7 @@ class AjaxController @Inject()(cc: ControllerComponents, playconfiguration: Conf
 
 					pr + " (" + prolog(namespaceAbbreviation) + ")"
 				})
-				suggestedPredicates = suggestedPredicates ++ predicates.filter(_.split(":")(1).contains(p))
+				suggestedPredicates = suggestedPredicates ++ predicates.filter(x => x.split(":")(1).contains(p) || x.split(":")(1).contains(p.toLowerCase))
 			} else if (has.isEmpty) {
 				predicates = predicates.map(pr => {
 						val prBits =  pr.split(":")
@@ -217,14 +217,45 @@ class AjaxController @Inject()(cc: ControllerComponents, playconfiguration: Conf
 
 						pr + " (" + prolog(namespaceAbbreviation) + ")"
 					})
-				suggestedPredicates = suggestedPredicates ++ predicates.filter(_.split(":")(1).contains(p))
+				suggestedPredicates = suggestedPredicates ++ predicates.filter(x => x.split(":")(1).contains(p) || x.split(":")(1).contains(p.toLowerCase))
 			}
     }
 
 		Ok(Json.stringify(Json.toJson(suggestedPredicates)))
   }
 
-	def exportMappings  = Action {
+	def getClasses(c: String) = Action {
+		import scala.collection.mutable.Set
+		import org.dizitart.no2.Nitrite
+		import org.dizitart.no2.Document
+		import org.dizitart.no2.filters.Filters
+    import scala.collection.JavaConversions._
+		import java.util.HashMap
+
+		val pred: Set[String] = Set()
+		var propertiesMap : HashMap[String,String] = new HashMap()
+		var prefixMap : HashMap[String,String] = new HashMap()
+		var suggestedClasses : scala.collection.mutable.Set[String] = scala.collection.mutable.Set()
+		val db : Nitrite = database.connectDB
+		val collection = db.getCollection("mappings")
+		var cursor = collection.find(Filters.regex("class", c))
+
+    for (document <- cursor) {
+        val prologMap = document.get("prolog").asInstanceOf[HashMap[String,String]]
+        val clss = document.get("class").toString
+				val bits = clss.split(":")
+				val namespaceAbbreviation = bits(0)
+				val clssName = bits(1)
+
+				val cl = clssName + " (" + prologMap(namespaceAbbreviation) + ")"
+
+				if (clssName.contains(c)) // don't autu-osuggest based on the namespace
+        	suggestedClasses += namespaceAbbreviation + ":" + cl
+    }
+		Ok(Json.stringify(Json.toJson(suggestedClasses)))
+  }
+
+	def generateMappings  = Action {
 		import org.dizitart.no2.Nitrite
 		import org.dizitart.no2.Document
 		import org.dizitart.no2.filters.Filters

@@ -1,7 +1,45 @@
-@(message: String, style: String = "scala") 
+@(message: String, style: String = "scala") @defining(play.core.PlayVersion.current) { version =>
 
-@defining(play.core.PlayVersion.current) { version =>
+<section id="cd-timeline" class="cd-container">
+    <div class="cd-timeline-block">
+        <div class="cd-timeline-img cd-movie">
+        </div>
+        <!-- cd-timeline-img -->
 
-    Welcome to Squerall User Interface
+        <div class="cd-timeline-content">
+            <a href="@routes.SquerallController.addSource" class="dash">1. Connect to a datasource</a>
+            <p>In order to enable accessing a data source, you need to provide access and configuration settings <a href="https://github.com/EIS-Bonn/Squerall-GUI#1-connection-ui" target="_blank">(Read more)</a>.</p>
+        </div>
+        <!-- cd-timeline-content -->
+    </div>
+    <!-- cd-timeline-block -->
 
+    <div class="cd-timeline-block">
+        <div class="cd-timeline-img cd-picture">
+        </div>
+        <!-- cd-timeline-img -->
+
+        <div class="cd-timeline-content">
+            <a href="@routes.SquerallController.addMappings" class="dash">2. Map data within a datasource</a>
+            <p>In order to allow the querying of data inside the data source, you need next to map its schema to ontology classes and properties <a href="https://github.com/EIS-Bonn/Squerall-GUI#2-mappings-ui" target="_blank">(Read more)</a>.</p>
+        </div>
+        <!-- cd-timeline-content -->
+    </div>
+    <!-- cd-timeline-block -->
+
+
+    <div class="cd-timeline-block" onclick="location.href='@routes.SquerallController.addMappings'">
+        <div class="cd-timeline-img cd-movie">
+        </div>
+        <!-- cd-timeline-img -->
+
+        <div class="cd-timeline-content">
+            <a href="@routes.SquerallController.query" class="dash">3. Querying the data lake</a></h1>
+            <p>In this step you are guided through the creation of correct queries, that potentially return results, by suggesting elements from the schema <a href="https://github.com/EIS-Bonn/Squerall-GUI#3-query-ui" target="_blank">(Read more)</a>.</p>
+        </div>
+        <!-- cd-timeline-content -->
+    </div>
+    <!-- cd-timeline-block -->
+</section>
+<!-- cd-timeline -->
 }

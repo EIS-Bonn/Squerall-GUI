@@ -2,21 +2,30 @@
 
 @defining(play.core.PlayVersion.current) { version =>
 
-<div class="alert alert-info" role="alert">
-Select a data source to annotate from the following list:
+<div class="alert alert-info" role="alert" style="margin-top: 20px;">
+@if(data.isEmpty) {
+	No source added yet. Go to <a href="@routes.SquerallController.addSource">Sources</a> to add one.
+} else {
+	Select a data source to annotate from the following list. 
+}
 </div>
 
 <ul class="list-group">
 @for((e,t) <- data){
-	<li class="list-group-item d-flex justify-content-between align-items-center">
+	<li class="list-group-item d-flex justify-content-between align-items-center hoverable" data-entity="@e" onclick="location.href='@routes.SquerallController.annotate(e)'">
         @e
 		<br>
 		<small>@t</small>
-		<a href="@routes.SquerallController.annotate(e)" class="badge badge-primary" data-entity="@e">Map</a>
     </li>
 }
 </ul>
 
-<button type="button" class="btn btn-primary" id="exportMappings" style="margin-top: 10px;">Generate mappings</button>
-<div id="mappings" style="display: none;"><div id="mappings-box"></div></div>
+@if(!data.isEmpty) {
+	<button type="button" class="btn btn-primary" id="generateMappings" style="margin-top: 10px;">Generate mappings</button>
+}
+<div id="mappings">
+	<div id="exportMappings" style="display: none;"></div>
+	<div id="mappings-box" style="display: none;"></div>
+</div>
+
 }

@@ -1,14 +1,15 @@
 $(document).ready(function(){
   var mp = ""
-	$("#exportMappings").click(function() {
+	$("#generateMappings").click(function() {
 		$.ajax({
 			method: "POST",
-			url: "/exportMappings",
+			url: "/generateMappings",
 			success: function(data) {
 				mp = data
-				$("#mappings").show()
+				$("#mappings-box").show()
+				$("#exportMappings").show()
 				$("#mappings-box").html(data.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, "<br/>").replace(/\s/g, '&nbsp;&nbsp;&nbsp;'))
-				$("#mappings").prepend("<br/><button type='button' class='btn btn-primary' id='saveMappings' style='margin-bottom: 10px;'>Export mappings</button>")
+				$("#exportMappings").html("<br/><button type='button' class='btn btn-primary' id='saveMappings' style='margin-bottom: 10px;'>Export mappings</button>")
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				alert('An error occurred... open console for more information!');
@@ -25,7 +26,14 @@ $(document).ready(function(){
 
 	$("#mappings").on("click", "button#saveMappings", function() {
 		var fileName =  'mappings.ttl'; 
-		downloadInnerHtml(fileName,mp,'text/html')
+		downloadInnerHtml(fileName, mp, 'text/html')
+	});
+
+	$("#downloadQuery").click(function() {
+			var prolog = $("#prolog").text()
+			var select = $("#select").text()
+			var where = $("#where").text()
+			var transform = $("#transform").text()
 	});
 
 	function downloadInnerHtml(filename, element, mimeType) {

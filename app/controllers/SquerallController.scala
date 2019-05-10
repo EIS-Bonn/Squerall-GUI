@@ -42,23 +42,25 @@ class SquerallController @Inject()(cc: ControllerComponents, playconfiguration: 
 
 		val sourcesConfFile = playconfiguration.underlying.getString("sourcesConfFile")
 		val data: String = Source.fromFile(sourcesConfFile).getLines.mkString
-		val json: JsValue = Json.parse(data)
-
-		case class SourceObject(dtype: String, entity: String)
-
-		implicit val userReads: Reads[SourceObject] = (
-			(__ \ 'type).read[String] and
-					(__ \ 'entity).read[String]
-			) (SourceObject)
-
 		var source_dtype : Map[String,String] = Map()
 
-		val sources = (json \ "sources").as[Seq[SourceObject]]
+		if (data.trim != "") {
+			val json: JsValue = Json.parse(data)
 
-		for (s <- sources) {
-			source_dtype = source_dtype + (s.entity -> s.dtype)
+			case class SourceObject(dtype: String, entity: String)
+
+			implicit val userReads: Reads[SourceObject] = (
+				(__ \ 'type).read[String] and
+						(__ \ 'entity).read[String]
+				) (SourceObject)
+
+			val sources = (json \ "sources").as[Seq[SourceObject]]
+
+			for (s <- sources) {
+				source_dtype = source_dtype + (s.entity -> s.dtype)
+			}
 		}
-
+		
     Ok(views.html.squerall("Add mappings", source_dtype))
   }
 
@@ -119,7 +121,7 @@ class SquerallController @Inject()(cc: ControllerComponents, playconfiguration: 
 			}
 
 		} else if (dtype == "parquet") {
-			val pathToParquetToolsJar = playconfiguration.underlying.getString("parquetSchemaExtactor")
+			val pathToParquetToolsJar = playconfiguration.underlying.getString("pathToParquetToolsJar")
 			parquet_schema = "java -jar " + pathToParquetToolsJar + " schema " + source !!
 
 			parquet_schema  = parquet_schema.substring(parquet_schema.indexOf('\n') + 1)

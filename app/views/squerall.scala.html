@@ -1,28 +1,37 @@
 @(message: String, data: Map[String,String])
 
 @if(message=="Home") {
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/steps.css")" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/style.css")" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/font.css")" />
     @html("Squerall - Dashboard") {
         @dashboard(message, style = "scala")
-    }
+    }    
 } else if(message=="db") {
     @html("Squerall - Dashboard") {
         @dashboard(message, style = "scala")
     }
 } else if(message=="Add source") {
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/style.css")" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/font.css")" />
     @html("Squerall - Add Source") {
         @addSource(message, style = "scala")
     }
-    <script src="@routes.Assets.versioned("javascripts/addSource.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/addSource.js")"></script>    
 } else if(message=="Add mappings") {
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/style.css")" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/font.css")" />
     @html("Squerall - Add Source") {
         @addMappings(message, data, style = "scala") @* data = entities *@
     }
-    <script src="@routes.Assets.versioned("javascripts/export.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/export.js")"></script>    
 } else if(message=="Query") {
-	<link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/tt.css")" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/style.css")" />
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/tt.css")" />  
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/font.css")" /> 
     @html("Squerall - Query") {
         @query(message, style = "scala")
     }
 	<script src="@routes.Assets.versioned("javascripts/typeahead.bundle.min.js")"></script>
-	<script src="@routes.Assets.versioned("javascripts/query.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/query.js")"></script> 
 }

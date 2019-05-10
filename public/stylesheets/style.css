@@ -1,0 +1,101 @@
+* {
+    font-family: "Zilla Slab", Sans-serif;
+    font-size: 4.5mm;
+}
+
+html,
+body {
+    height: 100%;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#bea2e7+0,86b7e7+100 */
+    background: #bea2e7;
+    /* Old browsers */
+    background: -moz-linear-gradient(-225deg, #2CD8D5 0%, #6B8DD6 48%, #8E37D7 100%) fixed;
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(-225deg, #2CD8D5 0%, #6B8DD6 48%, #8E37D7 100%) fixed;
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(-225deg,#2CD8D5 0%, #6B8DD6 48%, #8E37D7 100%) fixed;
+    /*background-image: linear-gradient(-225deg, #2CD8D5 0%, #6B8DD6 48%, #8E37D7 100%) ;*/
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    -webkit-background-size: 100% 100%; 
+    background-size: 100% 100%;
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#bea2e7', endColorstr='#86b7e7', GradientType=0);
+    /* IE6-9 */    
+}
+
+.rounded {
+    padding: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: white;
+    -webkit-box-shadow: -1px 2px 14px -4px rgba(255,255,255,1);
+    -moz-box-shadow: -1px 2px 14px -4px rgba(255,255,255,1);
+    box-shadow: -1px 2px 14px -4px rgba(255,255,255,1);
+} 
+
+.list-group {
+    -webkit-box-shadow: -1px 2px 14px -4px rgba(255,255,255,1);
+    -moz-box-shadow: -1px 2px 14px -4px rgba(255,255,255,1);
+    box-shadow: -1px 2px 14px -4px rgba(255,255,255,1);
+}
+
+
+.alert {
+    -webkit-box-shadow: 2px -1px 10px -2px rgba(255,255,255,1);
+-moz-box-shadow: 2px -1px 10px -2px rgba(255,255,255,1);
+box-shadow: 2px -1px 10px -2px rgba(255,255,255,1);
+}
+
+.abs {
+    position: absolute !important;
+}
+
+a.dash:link {
+    font-size: 1.3em;
+}
+
+a.dash:link {
+    color: white;
+}
+
+/* visited link */
+a.dash:visited {
+color: white;
+}
+
+/* mouse over link */
+a.dash:hover {
+color: white;
+}
+
+/* selected link */
+a.dash:active {
+color: white;
+}
+
+.hoverable {
+    cursor: pointer;
+}
+
+.hoverable:hover {
+    background-color: lightcyan;
+}
+
+.grayed {    
+    cursor: not-allowed !important;
+    color: gray;
+}
+
+.grayed:hover {
+    background: rgb(247, 232, 232) !important;
+}
+
+.navbar {
+    padding: 0px !important;
+}
+
+#logo {
+    background-color: transparent
+}

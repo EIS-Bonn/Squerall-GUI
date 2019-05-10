@@ -144,7 +144,7 @@ $(document).ready(function(){
 			var pred = $(this).attr("id")
 			var short_ns = ""
 			var mapping = $(this).val()			
-			if (mapping.includes(">")) { // abc>http://example.com/publishdata => personalized URI
+			if (mapping.includes(">")) { // abc>http://example.com/ns/publishdata => personalized URI
 				var bits = mapping.split(">")
 				short_ns = bits[0]
 				mapping = bits[1]
@@ -165,9 +165,20 @@ $(document).ready(function(){
 
 		var pk = $('input[name=pk]:checked').val()
 		var dtype = $("#dtype").val()
-		var shortns_clss = $("#shortns_clss").val()
-		var ns_clss = $("#ns_clss").val()
 		var clss = $("#clss").val()
+		var shortns_clss = ""
+		var ns_clss = ""
+		if (clss.includes(">")) { // abc>http://example.com/ns/Product => personalized URI
+			var bits = clss.split(">")
+			shortns_clss = bits[0]
+			clss = bits[1]
+			var tmp = clss.includes("#") ? clss.lastIndexOf('#') : clss.lastIndexOf('/')
+			ns_clss = clss.substring(0, tmp + 1) // +1 to include the last '/'
+		} else {
+			shortns_clss = $("#shortns_clss").val()
+			ns_clss = $("#ns_clss").val()
+		}
+		
 		var src = $("#src").val()
 		var entity = $("#entity").val()
 

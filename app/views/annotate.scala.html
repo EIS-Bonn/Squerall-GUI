@@ -2,42 +2,40 @@
 
 @defining(play.core.PlayVersion.current) { version =>
 
-<div class="alert alert-info" role="alert">
-Click annotate to create the mappings
-</div>
-
-<ul class="list-group">
-  <li class="list-group-item"><strong>Path:</strong> @source</li>
-  <li class="list-group-item">
-	
-	<table class="table table-bordered" style="table-layout: fixed; width: 100%">
-	  <thead>
-		<tr>
-		  <th scope="col">Option</th>
-		  <th scope="col">Value</th>
-		</tr>
-	  </thead>
-	  <tbody> 
-		@for((k,v) <- options){ 
+<div style="margin-top: 20px;">
+	<ul class="list-group">
+		<li class="list-group-item"><strong>Source:</strong> @source</li>
+		<li class="list-group-item">
+		
+		<table class="table table-bordered" style="table-layout: fixed; width: 100%">
+			<thead>
 			<tr>
-				<td>@k</td>
-				<td style="word-wrap: break-word">@v</td>
+				<th scope="col">Option</th>
+				<th scope="col">Value</th>
 			</tr>
-		} 
-	  </tbody>
-	</table>
-	
-  </li>
-  <li class="list-group-item"><strong>Type:</strong> @dtype</li>
-</ul>
+			</thead>
+			<tbody> 
+			@for((k,v) <- options){ 
+				<tr>
+					<td>@k</td>
+					<td style="word-wrap: break-word">@v</td>
+				</tr>
+			} 
+			</tbody>
+		</table>
+		
+		</li>
+		<li class="list-group-item"><strong>Type:</strong> @dtype</li>
+	</ul>
+</div>
 <input type="hidden" value="@dtype" id="dtype" class="form-control" />
 <input type="hidden" value="@source" id="src" class="form-control" />
 <input type="hidden" value="@entity" id="entity" class="form-control" />
 <div>
-	<div class="alert alert-info" role="alert" style="margin-top: 50px;">
-	We auto-suggest a mapping, if not adequate, search for another one or enter a new. The latter should follow this template: [short namespace]>[URI], e.g. npg>http://ns.nature.com/terms/date
-	</div>
-		
+<div class="alert alert-info" role="alert" style="margin-top: 20px;">
+We auto-suggest a mapping, if not adequate, search for another one or enter a new. The latter should follow this template: [short namespace]>[URI], e.g. npg>http://ns.nature.com/terms/date
+</div>
+<div class="rounded">		
 	<div style="margin-bottom: 20px;">
 		<strong>Class:</strong> 
 		<input type="text" id="clss" class="form-control"/>
