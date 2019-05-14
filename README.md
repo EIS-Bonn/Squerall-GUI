@@ -43,22 +43,22 @@ Squerall-GUI consists of three interfaces:
 ### 1. Connection UI
 It is used to generate the **config** file, it shows users the options they need to provide in order to connect to a data source. Those are Spark and Presto options, an example of MongoDB options in Spark can be found [here](https://docs.mongodb.com/spark-connector/master/configuration/), and in Presto [here](https://prestodb.github.io/docs/current/connector/mongodb.html).
 
-![text](docs/connectUI.gif)
+![text](docs/connect_UI.gif)
 
 
 ### 2. Mappings UI
 Using the information collected by the previous GUI, data schema is extracted showed to the user. The user searches for Ontology properties and classes to map data attributes and entities. The search is powered by the [LOV catalog](https://lov.linkeddata.es/dataset/lov/), but users can enter their own terms.
 
-![text](docs/mappingsUI.gif)
+![text](docs/map_UI.gif)
 
 Mappings are saved in their dedicated database, users use this interface to generate the **mappings** file used by Squerall to query the data.
 
-![text](docs/exportMappings.gif)
+![text](docs/export_mappings_UI.gif)
 
 ### 3. Query UI
 It guides users through the creation of SPARQL queries. Users provide input to widgets, and the interface creates the query for them. The interface auto-suggests Ontology terms from the mappings collected by the previous interface. This interface helps users create queries that potentially return results; e.g., if they choose terms not known in the mappings, the query will not return results.
 
-![text](docs/queryUI.gif)
+![text](docs/query_UI.gif)
 
 ## Try it
 A Dockerfile is available to have a quick look at Squerall-GUI. Navigate to the root of the repo (where Dockerfile is located) and then run:
