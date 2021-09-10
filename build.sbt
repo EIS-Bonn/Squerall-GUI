@@ -2,7 +2,7 @@ name := """Squerall-GUI"""
 
 version := "0.2.0"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, PlayJava, LauncherJarPlugin)
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
